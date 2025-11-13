@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel App Structure Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .folder-item { transition: all 0.2s; }
+        .folder-item:hover { background-color: #f9fafb; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-4xl mx-auto p-6 bg-white my-8 rounded-lg shadow-lg">
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">📁 Laravel App Structure</h1>
+            <p class="text-gray-600">Click on folders to expand/collapse. This shows where to find important files.</p>
+        </div>
+
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+            <h2 class="font-bold text-blue-800 mb-2">🎯 Quick Reference for Your Project:</h2>
+            <ul class="text-sm text-blue-700 space-y-1">
+                <li>• <strong>Dashboard layout:</strong> resources/views/layouts/dasht.blade.php</li>
+                <li>• <strong>Dashboard page:</strong> resources/views/user/dashboard.blade.php</li>
+                <li>• <strong>Routes:</strong> routes/web.php and routes/user/web.php</li>
+                <li>• <strong>Controllers:</strong> app/Http/Controllers/User/ViewsController.php</li>
+                <li>• <strong>Session config:</strong> config/session.php</li>
+                <li>• <strong>Environment:</strong> .env (SESSION_DOMAIN)</li>
+            </ul>
+        </div>
+
+        <div id="structure"></div>
+
+        <div class="mt-6" id="root-files"></div>
+
+        <div class="mt-8 bg-green-50 border-l-4 border-green-500 p-4">
+            <h3 class="font-bold text-green-800 mb-2">💡 Pro Tips:</h3>
+            <ul class="text-sm text-green-700 space-y-2">
+                <li>• <strong>Need to edit a page?</strong> Start in routes/web.php → find the Controller → find the view file</li>
+                <li>• <strong>Adding Smartsupp?</strong> Edit the layout file (dasht.blade.php) not individual pages</li>
+                <li>• <strong>Session issues?</strong> Check .env and config/session.php</li>
+                <li>• <strong>After config changes:</strong> Run "php artisan config:cache"</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const expanded = {
+            app: true,
+            'app-http': true,
+            'app-models': true,
+            resources: true,
+            'resources-views': true,
+            routes: true,
+            public: true,
+            config: true,
+            database: true
+        };
+
+        const folders = [
+            {
+                key: 'app',
+                name: 'app/',
+                description: 'Core application logic',
+                color: 'bg-blue-500',
+                children: [
+                    {
+                        key: 'app-http',
+                        name: 'Http/',
+                        description: 'Handle HTTP requests',
+                        color: 'bg-blue-400',
+                        children: [
+                            { name: 'Controllers/', description: 'Control application logic (e.g., ViewsController.php)', icon: '🎮' },
+                            { name: 'Middleware/', description: 'Filter HTTP requests (e.g., authentication)', icon: '🛡️' }
+                        ]
+                    },
+                    {
+                        key: 'app-models',
+                        name: 'Models/',
+                        description: 'Database tables (Users, Plans, etc.)',
+                        color: 'bg-blue-400',
+                        children: [
+                            { name: 'User.php', description: 'User database model', icon: '👤' },
+                            { name: 'Plans.php', description: 'Plans database model', icon: '📋' },
+                            { name: 'Deposit.php', description: 'Deposits database model', icon: '💰' }
+                        ]
+                    }
+                ]
+            },
+            {
+                key: 'resources',
+                name: 'resources/',
+                description: 'Views, assets, and raw files',
+                color: 'bg-green-500',
+                children: [
+                    {
+                        key: 'resources-views',
+                        name: 'views/',
+                        description: 'Blade templates (HTML)',
+                        color: 'bg-green-400',
+                        children: [
+                            { name: 'layouts/', description: 'Layout files (dasht.blade.php, base.blade.php)', icon: '🎨' },
+                            { name: 'user/', description: 'User pages (dashboard.blade.php, profile.blade.php)', icon: '👥' },
+                            { name: 'home/', description: 'Homepage views (index.blade.php)', icon: '🏠' }
+                        ]
+                    }
+                ]
+            },
+            {
+                key: 'routes',
+                name: 'routes/',
+                description: 'Define URL routes',
+                color: 'bg-purple-500',
+                children: [
+                    { name: 'web.php', description: 'Main web routes', icon: '🌐' },
+                    { name: 'user/web.php', description: 'User dashboard routes', icon: '👤' },
+                    { name: 'admin/web.php', description: 'Admin panel routes', icon: '⚙️' }
+                ]
+            },
+            {
+                key: 'public',
+                name: 'public/',
+                description: 'Publicly accessible files',
+                color: 'bg-yellow-500',
+                children: [
+                    { name: 'index.php', description: 'Entry point for all requests', icon: '🚪' },
+                    { name: 'css/', description: 'Stylesheets', icon: '🎨' },
+                    { name: 'js/', description: 'JavaScript files', icon: '⚡' },
+                    { name: 'images/', description: 'Images and media', icon: '🖼️' }
+                ]
+            },
+            {
+                key: 'config',
+                name: 'config/',
+                description: 'Configuration files',
+                color: 'bg-red-500',
+                children: [
+                    { name: 'app.php', description: 'General app settings', icon: '⚙️' },
+                    { name: 'database.php', description: 'Database connections', icon: '🗄️' },
+                    { name: 'session.php', description: 'Session settings (cookieDomain)', icon: '🍪' }
+                ]
+            },
+            {
+                key: 'database',
+                name: 'database/',
+                description: 'Database files',
+                color: 'bg-indigo-500',
+                children: [
+                    { name: 'migrations/', description: 'Database structure changes', icon: '📦' },
+                    { name: 'seeders/', description: 'Sample data for testing', icon: '🌱' }
+                ]
+            },
+            {
+                key: 'storage',
+                name: 'storage/',
+                description: 'Logs, cache, uploads',
+                color: 'bg-gray-500',
+                children: [
+                    { name: 'logs/', description: 'Application logs', icon: '📝' },
+                    { name: 'app/public/', description: 'User uploaded files', icon: '📁' }
+                ]
+            },
+            {
+                key: 'vendor',
+                name: 'vendor/',
+                description: 'Third-party packages (don\'t edit)',
+                color: 'bg-gray-400',
+                children: []
+            }
+        ];
+
+        const rootFiles = [
+            { name: '.env', description: 'Environment variables (SESSION_DOMAIN, database)', icon: '🔒' },
+            { name: 'composer.json', description: 'PHP dependencies', icon: '📦' },
+            { name: 'artisan', description: 'Command-line tool (php artisan)', icon: '⚒️' }
+        ];
+
+        function toggle(key) {
+            expanded[key] = !expanded[key];
+            render();
+        }
+
+        function renderItem(item, level = 0) {
+            const isExpanded = expanded[item.key];
+            const hasChildren = item.children && item.children.length > 0;
+            const marginLeft = level > 0 ? 'ml-6' : '';
+
+            let html = `
+                <div class="mb-1">
+                    <div class="folder-item flex items-center p-2 rounded cursor-pointer ${marginLeft}" 
+                         ${hasChildren ? `onclick="toggle('${item.key}')"` : ''}>
+                        <div class="mr-2 w-4">
+                            ${hasChildren ? (isExpanded ? '▼' : '▶') : ''}
+                        </div>
+                        <div class="w-6 h-6 ${item.color} rounded mr-2 flex items-center justify-center text-white text-xs">
+                            ${item.icon || '📁'}
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-mono text-sm font-semibold">${item.name}</div>
+                            <div class="text-xs text-gray-600">${item.description}</div>
+                        </div>
+                    </div>`;
+
+            if (isExpanded && hasChildren) {
+                html += '<div class="ml-4">';
+                item.children.forEach(child => {
+                    if (child.children) {
+                        html += renderItem(child, level + 1);
+                    } else {
+                        html += `
+                            <div class="flex items-center p-2 rounded hover:bg-gray-50 ${level > 0 ? 'ml-6' : ''}">
+                                <div class="mr-2 w-4"></div>
+                                <div class="mr-2 text-lg">${child.icon}</div>
+                                <div class="flex-1">
+                                    <div class="font-mono text-sm">${child.name}</div>
+                                    <div class="text-xs text-gray-600">${child.description}</div>
+                                </div>
+                            </div>`;
+                    }
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function render() {
+            let html = '<h3 class="text-lg font-semibold text-gray-700 mb-3">📂 Folders</h3><div class="space-y-2">';
+            folders.forEach(folder => {
+                html += renderItem(folder);
+            });
+            html += '</div>';
+            document.getElementById('structure').innerHTML = html;
+
+            let filesHtml = '<h3 class="text-lg font-semibold text-gray-700 mb-3">📄 Important Root Files</h3><div class="space-y-2">';
+            rootFiles.forEach(file => {
+                filesHtml += `
+                    <div class="flex items-center p-2 rounded hover:bg-gray-50">
+                        <div class="mr-2 text-lg">${file.icon}</div>
+                        <div class="flex-1">
+                            <div class="font-mono text-sm font-semibold">${file.name}</div>
+                            <div class="text-xs text-gray-600">${file.description}</div>
+                        </div>
+                    </div>`;
+            });
+            filesHtml += '</div>';
+            document.getElementById('root-files').innerHTML = filesHtml;
+        }
+
+        render();
+    </script>
+</body>
+</html>
